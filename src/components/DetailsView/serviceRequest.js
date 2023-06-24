@@ -47,7 +47,7 @@ export default {
       "email": ""
     }
   ],
-  "specialInstruction": [
+  "specialInstructions": [
     {
       "instructionCode": "45668554.1.12",
       "description": "Care protocol 45668554.1.12"
