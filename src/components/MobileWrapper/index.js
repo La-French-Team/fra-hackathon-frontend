@@ -1,6 +1,4 @@
 import { BrowserView, MobileView } from "react-device-detect"
-import { MapContext } from "../MapContext";
-import Map from "../Map";
 import { useEffect, useState } from "react";
 
 const getSize = () => ({
@@ -8,7 +6,7 @@ const getSize = () => ({
   height: window.innerHeight * 0.8
 })
 
-export default ({ mapboxAccessToken }) => {
+export default ({ children }) => {
   const [size, setSize] = useState(getSize());
 
   useEffect(() => {
@@ -16,8 +14,6 @@ export default ({ mapboxAccessToken }) => {
       setSize(getSize())
     })
   }, [])
-
-  console.log(size)
 
   return <>
     <BrowserView>
@@ -30,9 +26,7 @@ export default ({ mapboxAccessToken }) => {
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat"
       }} >
-        <MapContext.Provider value={{ mapboxAccessToken }}>
-          <Map />
-        </MapContext.Provider>
+        {children}
       </div>
     </BrowserView>
     <MobileView>
@@ -40,10 +34,9 @@ export default ({ mapboxAccessToken }) => {
         width: "100vw",
         height: "calc(100vh - 64px)",
         padding: "0.5rem",
+        marginBottom: "0.5rem"
       }} >
-      <MapContext.Provider value={{ mapboxAccessToken }}>
-        <Map />
-      </MapContext.Provider>
+        {children}
       </div>
     </MobileView>
   </>
