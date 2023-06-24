@@ -9,7 +9,6 @@ import {
 } from "@mui/material"
 
 const JsonCell = ({ value }) => {
-  console.log(value, typeof value)
     if (Array.isArray(value)) {
       return <ul>
       {value.map(el => <li><pre>{JSON.stringify(el)}</pre></li>)}

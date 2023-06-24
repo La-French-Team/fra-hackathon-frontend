@@ -1,0 +1,25 @@
+/** @type {Object<string, string>} */
+export const typeToResourceType = {
+  AccessControlList: 'access-control-lists',
+  Activity: 'activities',
+  BookingRequest: 'booking-requests',
+  ChangeMode: 'change-modes',
+  ChangeRequest: 'change-requests',
+  Consignment: 'consignments',
+  Consumer: 'consumers',
+  CustomerOrder: 'customer-orders',
+  Event: 'events',
+  ExecutionPlan: 'execution-plans',
+  HumanMean: 'human-means',
+  InvoicingDocument: 'invoicing-documents',
+  Issues: 'issues',
+  Item: 'items',
+  MaterialMean: 'material-means',
+  Operation: 'operations',
+  Piece: 'pieces',
+  Product: 'products',
+  ServiceLevelAgreement: 'service-level-agreements',
+  ServiceRequest: 'service-requests',
+  Service: 'services',
+  Subscription: 'subscriptions'
+};
