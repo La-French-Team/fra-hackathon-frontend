@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import steps from "./steps";
 import PickupDialog from "./PickupDialog";
 import { enqueueSnackbar } from "notistack";
+import DropoffDialog from "./DropoffDialog";
 
 const Map = ({ }) => {
   const router = useRouter()
@@ -24,6 +25,7 @@ const Map = ({ }) => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPickupDialogOpen, setDialogPickUpOpened] = useState(false);
+  const [isDropoffDialogOpen, setDialogDropOffOpened] = useState(false);
   const [activeStep, setActiveStep] = useState(router.query.step);
   const [currentPos, setCurrentPos] = useState(
     lineSource.features[0].geometry.coordinates[
@@ -39,6 +41,8 @@ const Map = ({ }) => {
       setIsPlaying(false)
       if (steps[router.query.step].isPickUp) {
         setDialogPickUpOpened(true);
+      } else if (steps[router.query.step].isDropOff) {
+        setDialogDropOffOpened(true)
       }
     }
   }
@@ -49,10 +53,15 @@ const Map = ({ }) => {
     enqueueSnackbar("ULD picked up", { variant: "success" })
   }
 
+  const onDropOff = () => {
+    enqueueSnackbar("ULD dropped off", { variant: "success" })
+  }
+
 
   return (
     <>
       <PickupDialog open={isPickupDialogOpen} onClose={onPickup} />
+      <DropoffDialog open={isDropoffDialogOpen} onClose={onDropOff} />
       <div ref={ref}
         style={{
           width: "100%",
@@ -95,7 +104,7 @@ const Map = ({ }) => {
             size="small"
             onClick={animateLine(true)}
             disabled={activeStep >= steps.length || isPlaying}>
-            Next
+            {steps[router.query.step].nextStepLabel}
           </Button>
         }
       />
