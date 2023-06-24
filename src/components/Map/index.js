@@ -10,6 +10,7 @@ import { MapContext } from "../MapContext";
 import { extrusionLayer, flatLayer } from "./data-layer";
 import museumSource from "./museum-source";
 import useResizeObserver from "use-resize-observer";
+import airportSource from "./airport-source";
 
 const valuetext = (value) => {
   return `${value} / 10`;
@@ -24,7 +25,7 @@ const Map = ({ }) => {
       <div ref={ref} 
           style={{
             width: "100%",
-            height: "100%"
+            height: "90%"
           }}>
         <MapGL
           initialViewState={{
@@ -40,8 +41,8 @@ const Map = ({ }) => {
           mapboxAccessToken={mapboxAccessToken}
           antialias={true}
         >
-          <Source type="geojson" data={museumSource}>
-            <Layer {...extrusionLayer} />
+          <Source type="geojson" data={airportSource}>
+            <Layer {...flatLayer} />
           </Source>
         </MapGL>
       </div>

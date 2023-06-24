@@ -1,7 +1,8 @@
 import Head from "next/head";
 import { AppBar, Body } from ".";
 
-const Page = ({ pageTitle = "title", children }) => {
+const Page = ({ children }) => {
+  const pageTitle = "ONE Visibility";
   return (
     <main>
       <Head>

@@ -36,9 +36,15 @@ export default ({ mapboxAccessToken }) => {
       </div>
     </BrowserView>
     <MobileView>
+      <div style={{
+        width: "100vw",
+        height: "calc(100vh - 64px)",
+        padding: "0.5rem",
+      }} >
       <MapContext.Provider value={{ mapboxAccessToken }}>
         <Map />
       </MapContext.Provider>
+      </div>
     </MobileView>
   </>
 }
