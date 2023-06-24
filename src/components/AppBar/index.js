@@ -66,8 +66,8 @@ const Component = ({ pageTitle = "Page" }) => {
         <span style={{ display: "flex", alignItems: "center" }}>
           <Switch
             checked={theme.palette.mode === "dark"}
-            checkedIcon={<Brightness7Icon fontSize={"small"} />}
-            icon={<Brightness4Icon fontSize={"small"} />}
+            checkedIcon={<Brightness4Icon fontSize={"small"} />}
+            icon={<Brightness7Icon fontSize={"small"} />}
             onChange={colorMode.toggleColorMode}
           />
 
