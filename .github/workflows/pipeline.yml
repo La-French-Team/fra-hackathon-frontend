@@ -22,7 +22,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/Thyvador/test-next-2023
+            ghcr.io/la-french-team/fra-hackathon-frontend
           tags: |
             type=schedule
             type=ref,event=branch
