@@ -1,7 +1,14 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
 import Link from "next/link"
+import ky from "ky"
 
 export default ({open, onClose}) => {
+
+  const onDropOff = () => {
+    // post drop off event
+    // ky.post()
+    onClose()
+  }
 
   return <Dialog open={open}>
     <DialogTitle sx={{ m: 0, p: 2 }}>
@@ -23,7 +30,7 @@ export default ({open, onClose}) => {
         autoFocus
         component={Link}
         href="/"
-        onClick={onClose}
+        onClick={onDropOff}
       >
         CONFIRM
       </Button>
