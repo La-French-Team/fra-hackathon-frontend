@@ -7,7 +7,6 @@ import { Slider } from "@mui/material";
 import { createRef, useContext, useEffect, useState } from "react";
 
 import { MapContext } from "../MapContext";
-import floorSource from "./airport-source";
 import { extrusionLayer, flatLayer } from "./data-layer";
 import museumSource from "./museum-source";
 

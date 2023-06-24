@@ -16,6 +16,12 @@ const appBarPages = [
     path: "/protected",
     protected: true,
   },
+  {
+    title: "Track & Trace",
+    alt: "Supply chain track & trace",
+    path: "/trackntrace",
+    protected: true,
+  },
 ];
 
 export default appBarPages;
