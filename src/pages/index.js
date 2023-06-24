@@ -1,33 +1,38 @@
-import { AppBar, Body } from "@/components";
-import { Container, Typography } from "@mui/material";
+import {
+  AccessDeniedWrapper,
+  DetailsView,
+  FlameChartView,
+  Page,
+  TimeLineView,
+} from "../components";
 
-export default function Home() {
+export default function TrackNTrace({ }) {
   return (
-    <>
-      <AppBar pageTitle="Home" />
-      <Body>
-        <Container maxWidth="xl" sx={{ backgroundColor: "white" }}>
-          <Typography
-            fontFamily="Roboto"
-            color="primary"
-            variant="h4"
-            component="span"
-          >
-            ONE
-          </Typography>
-          <Typography
-            fontFamily="Roboto"
-            color="secondary"
-            variant="h4"
-            component="span"
-          >
-            RECORD
-          </Typography>
-          <Typography fontFamily="Roboto" variant="h4" component="span">
-            .FR
-          </Typography>
-        </Container>
-      </Body>
-    </>
+    <Page pageTitle="Track & Trace">
+      <AccessDeniedWrapper>
+        <div style={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <FlameChartView style={{
+            flex: "1 1 auto",
+          }} />
+          <div style={{
+            minHeight: "50%",
+            maxHeight: "50%",
+            flex: "1 1 auto",
+            display: "flex"
+          }} >
+            <DetailsView style={{ height: "100%", width: "50%", flex: "1 1 auto" }} />
+            <TimeLineView style={{
+              height: "100%",
+              width: "50%",
+              flex: "1 1 auto",
+            }} />
+          </div>
+        </div>
+      </AccessDeniedWrapper>
+    </Page>
   );
 }
