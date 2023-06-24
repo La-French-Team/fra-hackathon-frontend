@@ -6,10 +6,10 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
-import pages from "./pages";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import pages from "./pages";
 
 /**
  *
@@ -86,7 +86,7 @@ const Component = ({ pageTitle = "Page" }) => {
         ) : (
           <Button
             variant="outlined"
-            onClick={() => signIn()}
+            onClick={() => signIn("zitadel")}
             sx={{ mr: 1, color: "white", borderColor: "white" }}
           >
             Sign in

@@ -23,7 +23,7 @@ export default function AccessDenied() {
         <Button
           variant="contained"
           color="error"
-          onClick={signIn}
+          onClick={() => signIn("zitadel")}
           sx={{ m: 1 }}
         >
           You must be signed in to view this page
