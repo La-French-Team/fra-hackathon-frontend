@@ -15,7 +15,7 @@ export default function About() {
         <section>
           <h4>The team:</h4>
           <ul>
-            <li>Alex Couvreur</li>
+            <li>Alexis Couvreur</li>
             <li>Alexandre Hiltcher</li>
             <li>Florian Maunier</li>
             <li>Christophe Maurin</li>
