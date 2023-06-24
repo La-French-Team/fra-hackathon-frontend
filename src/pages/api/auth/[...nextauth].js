@@ -2,7 +2,19 @@ import NextAuth from "next-auth";
 import ZitadelProvider from "next-auth/providers/zitadel";
 
 export const authOptions = {
-  // Configure one or more authentication providers
+  callbacks: {
+    async jwt({ token, account, profile }) {
+      if (account) {
+        token.idToken = account.id_token;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.idToken = token.idToken;
+
+      return session;
+    },
+  },
   providers: [
     {
       ...ZitadelProvider({
@@ -12,7 +24,6 @@ export const authOptions = {
       }),
       name: "ONE Record SSO",
     },
-    // ...add more providers here
   ],
 };
 export default NextAuth(authOptions);
