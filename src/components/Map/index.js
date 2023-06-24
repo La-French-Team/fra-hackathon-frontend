@@ -3,23 +3,24 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Layer, Marker, Source } from "react-map-gl";
 
-import { Alert, Button, MobileStepper, Slider, Step, StepLabel, Stepper } from "@mui/material";
-import { createRef, useContext, useEffect, useState } from "react";
+import { Button, MobileStepper } from "@mui/material";
+import { useContext, useState } from "react";
 
-import { MapContext } from "../MapContext";
-import { flatLayer, lineLayer, lineAnimationLayer } from "./data-layer";
-import useResizeObserver from "use-resize-observer";
-import airportSource from "./airport-source";
-import lineSource from "./line-source";
-import PathSource from "./PathSource";
+import { useTheme } from "@mui/material";
 import { useRouter } from "next/router";
-import steps from "./steps";
-import PickupDialog from "./PickupDialog";
 import { enqueueSnackbar } from "notistack";
+import useResizeObserver from "use-resize-observer";
+import { MapContext } from "../MapContext";
 import DropoffDialog from "./DropoffDialog";
+import PathSource from "./PathSource";
+import PickupDialog from "./PickupDialog";
+import airportSource from "./airport-source";
+import { flatLayer } from "./data-layer";
+import lineSource from "./line-source";
+import steps from "./steps";
 
-const Map = ({ }) => {
-  const router = useRouter()
+const Map = ({}) => {
+  const router = useRouter();
   const { ref, width = 1, height = 1 } = useResizeObserver();
   const { mapboxAccessToken } = useContext(MapContext);
 
@@ -28,45 +29,48 @@ const Map = ({ }) => {
   const [isDropoffDialogOpen, setDialogDropOffOpened] = useState(false);
   const [activeStep, setActiveStep] = useState(router.query.step);
   const [currentPos, setCurrentPos] = useState(
-    lineSource.features[0].geometry.coordinates[
-    steps[router.query.step].start])
+    lineSource.features[0].geometry.coordinates[steps[router.query.step].start]
+  );
+
+  const theme = useTheme();
 
   const animateLine = (state) => () => {
-    setIsPlaying(state)
-  }
+    setIsPlaying(state);
+  };
 
   const onMove = (pos, step) => {
     setCurrentPos(pos);
     if (step === steps[router.query.step].end) {
-      setIsPlaying(false)
+      setIsPlaying(false);
       if (steps[router.query.step].isPickUp) {
         setDialogPickUpOpened(true);
       } else if (steps[router.query.step].isDropOff) {
-        setDialogDropOffOpened(true)
+        setDialogDropOffOpened(true);
       }
     }
-  }
+  };
 
   const onPickup = () => {
-    setDialogPickUpOpened(false)
-    setActiveStep(1)
-    enqueueSnackbar("ULD picked up", { variant: "success" })
-  }
+    setDialogPickUpOpened(false);
+    setActiveStep(1);
+    enqueueSnackbar("ULD picked up", { variant: "success" });
+  };
 
   const onDropOff = () => {
-    enqueueSnackbar("ULD dropped off", { variant: "success" })
-  }
-
+    enqueueSnackbar("ULD dropped off", { variant: "success" });
+  };
 
   return (
     <>
       <PickupDialog open={isPickupDialogOpen} onClose={onPickup} />
       <DropoffDialog open={isDropoffDialogOpen} onClose={onDropOff} />
-      <div ref={ref}
+      <div
+        ref={ref}
         style={{
           width: "100%",
-          height: "90%"
-        }}>
+          height: "90%",
+        }}
+      >
         <MapGL
           initialViewState={{
             longitude: 8.556629344403035,
@@ -75,21 +79,32 @@ const Map = ({ }) => {
           }}
           style={{
             width,
-            height
+            height,
           }}
-          mapStyle="mapbox://styles/mapbox/streets-v12"
+          mapStyle={
+            theme.palette.mode === "dark"
+              ? "mapbox://styles/mapbox/dark-v11"
+              : "mapbox://styles/mapbox/streets-v12"
+          }
           mapboxAccessToken={mapboxAccessToken}
           antialias={true}
         >
           <Source type="geojson" data={airportSource}>
             <Layer {...flatLayer} />
           </Source>
-          <PathSource data={lineSource} isPlaying={isPlaying} step={activeStep} onMove={onMove} />
-          {currentPos && <Marker
-            color="red"
-            latitude={currentPos[1]}
-            longitude={currentPos[0]}>
-          </Marker>}
+          <PathSource
+            data={lineSource}
+            isPlaying={isPlaying}
+            step={activeStep}
+            onMove={onMove}
+          />
+          {currentPos && (
+            <Marker
+              color="red"
+              latitude={currentPos[1]}
+              longitude={currentPos[0]}
+            ></Marker>
+          )}
         </MapGL>
       </div>
 
@@ -103,7 +118,8 @@ const Map = ({ }) => {
           <Button
             size="small"
             onClick={animateLine(true)}
-            disabled={activeStep >= steps.length || isPlaying}>
+            disabled={activeStep >= steps.length || isPlaying}
+          >
             {steps[router.query.step].nextStepLabel}
           </Button>
         }
