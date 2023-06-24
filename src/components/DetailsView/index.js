@@ -8,37 +8,34 @@ import {
 } from "@mui/material"
 import LinkIcon from '@mui/icons-material/Link';
 import { useEffect, useState } from "react";
-import ky from "ky";
-import serviceRequest from "./serviceRequest";
 import JsonTable from "./JsonTable";
 import { JsonView, defaultStyles } from "react-json-view-lite";
 
 
 import 'react-json-view-lite/dist/index.css';
+import ky from "ky";
 
-export default ({ uri, style }) => {
-  const [data, setData] = useState(serviceRequest)
+export default ({ uri = null, style }) => {
+  const [data, setData] = useState(null)
   const [drawerOpened, setDrawerOpened] = useState(false)
 
-  console.log(uri)
-
   useEffect(() => {
-    const loadData = async () => {
-      // const res = await ky(uri).json();
-      // console.log(res);
-      // setData(res)
-    };
+    const laodData = async () => {
+      if (!!uri) {
+        setData(await ky(uri).json())
+      }
+    }
 
-    loadData()
-
+    laodData()
   }, [uri])
 
-  const openDrawer = ()  => {
+  const openDrawer = () => {
     setDrawerOpened(true);
   }
-  const closeDrawer = ()  => {
+  const closeDrawer = () => {
     setDrawerOpened(false);
   }
+  console.log(data)
 
   return <>
     <Drawer
@@ -49,7 +46,7 @@ export default ({ uri, style }) => {
       <JsonView
         data={data}
         shouldInitiallyExpand={() => true}
-        style={defaultStyles}/>
+        style={defaultStyles} />
     </Drawer>
     <Paper style={{
       display: "flex",
@@ -57,7 +54,7 @@ export default ({ uri, style }) => {
       padding: "0.5rem",
       ...style
     }}
-    variant="outlined">
+      variant="outlined">
       <div style={{
         display: "flex",
         justifyContent: "space-between"

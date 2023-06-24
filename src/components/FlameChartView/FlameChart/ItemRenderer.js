@@ -50,7 +50,6 @@ export default class ItemRenderer extends PureComponent {
         return null;
       }
 
-      console.log("node", node)
 
       return (
         <LabeledRect
