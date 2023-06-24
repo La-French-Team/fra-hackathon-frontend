@@ -12,7 +12,7 @@ export default function TrackNTrace({}) {
   const [results, setResults] = useState(null);
 
   return (
-    <Page pageTitle="Track & Trace">
+    <Page>
       <AccessDeniedWrapper>
         <div
           style={{

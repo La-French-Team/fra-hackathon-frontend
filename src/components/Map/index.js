@@ -1,37 +1,68 @@
 "use client";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import MapGL, { Layer, Source } from "react-map-gl";
+import MapGL, { Layer, Marker, Source } from "react-map-gl";
 
-import { Slider } from "@mui/material";
+import { Alert, Button, MobileStepper, Slider, Step, StepLabel, Stepper } from "@mui/material";
 import { createRef, useContext, useEffect, useState } from "react";
 
 import { MapContext } from "../MapContext";
-import { extrusionLayer, flatLayer } from "./data-layer";
-import museumSource from "./museum-source";
+import { flatLayer, lineLayer, lineAnimationLayer } from "./data-layer";
 import useResizeObserver from "use-resize-observer";
 import airportSource from "./airport-source";
-
-const valuetext = (value) => {
-  return `${value} / 10`;
-};
+import lineSource from "./line-source";
+import PathSource from "./PathSource";
+import { useRouter } from "next/router";
+import steps from "./steps";
+import PickupDialog from "./PickupDialog";
+import { enqueueSnackbar } from "notistack";
 
 const Map = ({ }) => {
+  const router = useRouter()
   const { ref, width = 1, height = 1 } = useResizeObserver();
   const { mapboxAccessToken } = useContext(MapContext);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPickupDialogOpen, setDialogPickUpOpened] = useState(false);
+  const [activeStep, setActiveStep] = useState(router.query.step);
+  const [currentPos, setCurrentPos] = useState(
+    lineSource.features[0].geometry.coordinates[
+    steps[router.query.step].start])
+
+  const animateLine = (state) => () => {
+    setIsPlaying(state)
+  }
+
+  const onMove = (pos, step) => {
+    setCurrentPos(pos);
+    if (step === steps[router.query.step].end) {
+      setIsPlaying(false)
+      if (steps[router.query.step].isPickUp) {
+        setDialogPickUpOpened(true);
+      }
+    }
+  }
+
+  const onPickup = () => {
+    setDialogPickUpOpened(false)
+    setActiveStep(1)
+    enqueueSnackbar("ULD picked up", { variant: "success" })
+  }
+
+
   return (
     <>
-      <div ref={ref} 
-          style={{
-            width: "100%",
-            height: "90%"
-          }}>
+      <PickupDialog open={isPickupDialogOpen} onClose={onPickup} />
+      <div ref={ref}
+        style={{
+          width: "100%",
+          height: "90%"
+        }}>
         <MapGL
           initialViewState={{
-            longitude: 8.553247617024397,
-            latitude: 50.03429893352305,
-            zoom: 12,
+            longitude: 8.556629344403035,
+            latitude: 50.027697101405664,
+            zoom: 15,
           }}
           style={{
             width,
@@ -44,18 +75,29 @@ const Map = ({ }) => {
           <Source type="geojson" data={airportSource}>
             <Layer {...flatLayer} />
           </Source>
+          <PathSource data={lineSource} isPlaying={isPlaying} step={activeStep} onMove={onMove} />
+          {currentPos && <Marker
+            color="red"
+            latitude={currentPos[1]}
+            longitude={currentPos[0]}>
+          </Marker>}
         </MapGL>
       </div>
-      <Slider
-        aria-label="Step"
-        defaultValue={1}
-        getAriaValueText={valuetext}
-        valueLabelDisplay="auto"
-        valueLabelFormat={valuetext}
-        step={1}
-        marks
-        min={1}
-        max={10}
+
+      <MobileStepper
+        variant="dots"
+        steps={steps.length + 1}
+        position="static"
+        activeStep={parseInt(activeStep)}
+        sx={{ maxWidth: 400, flexGrow: 1 }}
+        nextButton={
+          <Button
+            size="small"
+            onClick={animateLine(true)}
+            disabled={activeStep >= steps.length || isPlaying}>
+            Next
+          </Button>
+        }
       />
     </>
   );

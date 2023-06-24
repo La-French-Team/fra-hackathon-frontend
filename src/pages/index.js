@@ -8,7 +8,7 @@ import {
 
 export default function TrackNTrace({ }) {
   return (
-    <Page pageTitle="Track & Trace">
+    <Page>
       <AccessDeniedWrapper>
         <div style={{
           height: "100%",
