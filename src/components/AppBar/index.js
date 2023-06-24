@@ -1,15 +1,19 @@
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import {
   AppBar,
-  Box,
   Button,
   IconButton,
+  Switch,
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import pages from "./pages";
+import { useContext } from "react";
+import { ColorModeContext } from "../ColorModeContext";
 
 /**
  *
@@ -18,10 +22,15 @@ import pages from "./pages";
  */
 const Component = ({ pageTitle = "Page" }) => {
   const { data: session } = useSession();
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   return (
     <AppBar position="static">
-      <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Toolbar
+        disableGutters
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
         <span style={{ display: "flex", alignItems: "center" }}>
           <IconButton
             size="large"
@@ -55,6 +64,13 @@ const Component = ({ pageTitle = "Page" }) => {
           </Typography>
         </span>
         <span style={{ display: "flex", alignItems: "center" }}>
+          <Switch
+            checked={theme.palette.mode === "dark"}
+            checkedIcon={<Brightness7Icon fontSize={"small"} />}
+            icon={<Brightness4Icon fontSize={"small"} />}
+            onChange={colorMode.toggleColorMode}
+          />
+
           {!!session ? (
             <>
               <Typography sx={{ mr: "0.5rem" }} variant="h6">
