@@ -36,7 +36,7 @@ export default ({ uri, style }) => {
     setDrawerOpened(true);
   }
   const closeDrawer = ()  => {
-    setDrawerOpened(true);
+    setDrawerOpened(false);
   }
 
   return <>
