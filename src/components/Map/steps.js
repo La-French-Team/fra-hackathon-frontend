@@ -3,7 +3,7 @@ export default [
   {
     start: 0,
     end: 23,
-    interval: 300,
+    interval: 100,
     nextStepLabel: "Go to Pick up zone",
     isPickUp: true
   },

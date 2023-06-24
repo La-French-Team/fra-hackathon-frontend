@@ -23,6 +23,8 @@ export default ({ uri = null, style }) => {
     const laodData = async () => {
       if (!!uri) {
         setData(await ky(uri).json())
+      } else {
+        setData(null)
       }
     }
 

@@ -14,46 +14,55 @@ export default ({ }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "stretch",
-            justifyContent: "space-between"
+            justifyContent: "center",
           }}>
-            <span>
-              <Typography variant="h6">
-                New mission:
+            <Card
+            elevation={4}
+              sx={{ padding: "0.5rem" }}
+              variant="elevation">
+              <Typography variant="h5" component="div" sx={{fontWeight: "bold"}}>
+                New mission
               </Typography>
-              <Card sx={{ marginTop: "3rem" }}>
-                <Typography
-                  sx={{ margin: "0.5rem 0.5rem 1rem 0.5rem" }}>
-                  Handling
-                </Typography>
-                <Paper
-                  sx={{ p: "0.5rem" }}
-                  variant="outlined">
-                  <Typography variant="subtitle2">
-                    From: 
-                    <Typography component="span" sx={{fontWeight:"bold"}}> Aircraft</Typography>
-                  </Typography>
-                  <Typography variant="subtitle2">
-                    To: <Typography component="span" sx={{fontWeight:"bold"}}> Warehouse 529 Frachtumschlaghalle Fraport</Typography>
-                  </Typography>
-                </Paper>
+              <Typography
+                sx={{ marginBottom: "0.5rem" }}
+                color="text.secondary">
+                Goods movement
+              </Typography>
+              <Typography variant="subtitle2">
+                From: Aircraft
+              </Typography>
+              <Typography variant="subtitle2">
+                To:  Warehouse 529 Frachtumschlaghalle Fraport
+              </Typography>
 
-                <Typography
-                  sx={{ margin: "2rem 0.5rem 1rem 0.5rem" }}
-                  variant="body2">
-                  Total ULD: 1
-                </Typography>
-              </Card>
-            </span>
+              <Typography
+                sx={{ marginTop: "0.5rem" }}
+                variant="body2">
+                Total ULD: 1
+              </Typography>
+              <div
+                style={{
+                  marginTop: "2rem",
+                  display: "flex",
+                  justifyContent: "center"
+                }}>
+                <Button
+                  variant="contained"
+                  component={Link}
+                  href="/mobilemap/0"
+                  style={{
 
-            <Button
-              variant="contained"
-              component={Link}
-              href="/mobilemap/0">
-              Start misison
-            </Button>
+                  }}
+                >
+                  Start misison
+                </Button>
+              </div>
+
+            </Card>
+
           </div>
         </MobileWrapper>
-      </AccessDeniedWrapper>
-    </Page>
+      </AccessDeniedWrapper >
+    </Page >
   );
 }

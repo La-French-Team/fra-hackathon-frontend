@@ -19,7 +19,7 @@ import { flatLayer } from "./data-layer";
 import lineSource from "./line-source";
 import steps from "./steps";
 
-const Map = ({}) => {
+const Map = ({ }) => {
   const router = useRouter();
   const { ref, width = 1, height = 1 } = useResizeObserver();
   const { mapboxAccessToken } = useContext(MapContext);
@@ -68,14 +68,15 @@ const Map = ({}) => {
         ref={ref}
         style={{
           width: "100%",
-          height: "90%",
+          height: "85%",
+          marginTop: "10%"
         }}
       >
         <MapGL
           initialViewState={{
             longitude: 8.556629344403035,
             latitude: 50.027697101405664,
-            zoom: 15,
+            zoom: 14.5,
           }}
           style={{
             width,
@@ -98,11 +99,29 @@ const Map = ({}) => {
             step={activeStep}
             onMove={onMove}
           />
+          {steps.map((step, index) => {
+            console.log(step, index == activeStep)
+            return <Marker
+              key={index + "-" + (index == activeStep ? "red" : "grey")}
+              color={index == activeStep ? "red" : "grey"}
+              latitude={lineSource.features[0].geometry.coordinates[step.end - 1][1]}
+              longitude={lineSource.features[0].geometry.coordinates[step.end - 1][0]}
+            ></Marker>
+          }
+          )}
           {currentPos && (
             <Marker
-              color="red"
+              color="blue"
               latitude={currentPos[1]}
               longitude={currentPos[0]}
+              children={
+                <div style={{
+                  backgroundColor: "blue",
+                  width: "20px",
+                  borderRadius: "50%",
+                  height: "20px"
+                }}></div>
+              }
             ></Marker>
           )}
         </MapGL>
@@ -110,7 +129,7 @@ const Map = ({}) => {
 
       <MobileStepper
         variant="dots"
-        steps={steps.length + 1}
+        steps={steps.length}
         position="static"
         activeStep={parseInt(activeStep)}
         sx={{ maxWidth: 400, flexGrow: 1 }}

@@ -47,6 +47,10 @@ function transform(results, session) {
   // 3. Activity - 1 Execution Plan - Sequence Number
   // 4. Loop
 
+  if (results?.length == 0) {
+    return {}
+  }
+
   /**
    * @type Array
    */
@@ -93,24 +97,23 @@ const Flamechart = ({ style, results, onSpanClick }) => {
   const session = useSession();
   const realdata = transform(results, session);
 
-  console.log("realdata", realdata)
-
   return (
     <Paper ref={ref} style={{ ...style }} variant="outlined">
-      <FlameGraph
-        data={realdata}
-        height={height}
-        width={width}
-        onChange={(node) => {
-          onSpanClick(node);
-        }}
-        onMouseOver={(event, itemData) => {
-          // console.log(event, itemData);
-        }}
-        onMouseOut={(event, itemData) => {
-          //console.log(event, itemData);
-        }}
-      />
+      {results?.length > 0 &&
+        <FlameGraph
+          data={realdata}
+          height={height}
+          width={width}
+          onChange={(node) => {
+            onSpanClick(node);
+          }}
+          onMouseOver={(event, itemData) => {
+            // console.log(event, itemData);
+          }}
+          onMouseOut={(event, itemData) => {
+            //console.log(event, itemData);
+          }}
+        />}
     </Paper>
   );
 };

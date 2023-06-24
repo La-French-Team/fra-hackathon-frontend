@@ -2,8 +2,8 @@ import { BrowserView, MobileView } from "react-device-detect"
 import { useEffect, useState } from "react";
 
 const getSize = () => ({
-  width: window.innerHeight * 0.8 * 9 / 18,
-  height: window.innerHeight * 0.8
+  width: window.innerHeight * 0.82 * 9 / 18,
+  height: window.innerHeight * 0.80
 })
 
 export default ({ children }) => {
@@ -22,9 +22,11 @@ export default ({ children }) => {
         height: size.height,
         margin: "1rem auto 0 auto",
         padding: "2rem 2rem 4rem 2rem",
-        background: "url(/smartphone.png)",
+        background: "url(/smartphone-2.png)",
         backgroundSize: "contain",
-        backgroundRepeat: "no-repeat"
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#f3f2f1",
+        borderRadius: "10%"
       }} >
         {children}
       </div>

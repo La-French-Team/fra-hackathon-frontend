@@ -21,10 +21,11 @@ export default function TrackNTrace({ apiUrl }) {
   const [detailsUri, setDetailsUri] = useState(null);
 
   const onDataChange = (results) => {
-    setResults(results);
-    const serviceRequest = results[0].requests.find(
-      (el) => el?.type === "ServiceRequest"
-    );
+    setResults(results)
+    if (results?.length == 0) {
+      return setDetailsUri(null)
+    }
+    const serviceRequest = results[0]?.requests.find(el => el?.type === "ServiceRequest");
     if (serviceRequest) {
       if (serviceRequest?.params?.id) {
         setDetailsUri(loService.getUriFromSDLObject(serviceRequest));
