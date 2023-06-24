@@ -5,9 +5,9 @@ import Map from "./Map";
 import { MapContext } from "./MapContext";
 import Page from "./Page";
 
-import TimeLineView from './TimeLineView'
-import DetailsView from './DetailsView'
-import FlameChartView from './FlameChartView'
+import TimeLineView from "./TimeLineView";
+import DetailsView from "./DetailsView";
+import FlameChartView from "./FlameChartView";
 
 export {
   AccessDenied,
@@ -19,5 +19,5 @@ export {
   Page,
   TimeLineView,
   FlameChartView,
-  DetailsView
+  DetailsView,
 };
