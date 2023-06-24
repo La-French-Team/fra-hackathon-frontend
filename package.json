@@ -24,6 +24,10 @@
     "prettier": "^2.8.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-flame-graph": "^1.4.0",
     "react-map-gl": "^7.0.25"
+  },
+  "devDependencies": {
+    "use-resize-observer": "^9.1.0"
   }
 }
