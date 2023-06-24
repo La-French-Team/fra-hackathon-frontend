@@ -16,15 +16,21 @@ export default function TrackNTrace({ }) {
           flexDirection: "column"
         }}>
           <FlameChartView style={{
+            minHeight: "30%",
+            height: 0,
             flex: "1 1 auto",
           }} />
           <div style={{
+            height: 0,
             minHeight: "50%",
-            maxHeight: "50%",
-            flex: "1 1 auto",
+            flex: "2 1 auto",
             display: "flex"
           }} >
-            <DetailsView style={{ height: "100%", width: "50%", flex: "1 1 auto" }} />
+            <DetailsView style={{
+              height: "100%",
+              width: "50%",
+              flex: "1 1 auto"
+            }} />
             <TimeLineView style={{
               height: "100%",
               width: "50%",

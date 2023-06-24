@@ -4,9 +4,9 @@ import Event from './Event';
 export default ({ events }) => {
   return <Timeline position="right"
   sx={{
-    maxHeight: "85%",
+    maxHeight: "calc(100% - 32px)",
     overflowY:"auto",
-    paddingBottom: "0.5rem"
+    paddingBottom: "1rem"
   }}>
     {events.map((event, index) => (
       <Event
