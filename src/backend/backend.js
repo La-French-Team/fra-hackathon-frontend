@@ -1,9 +1,5 @@
 import ky from "ky";
 
-import { NextRequest, NextResponse } from "next/server";
-
-const API_URL = "http://localhost:3001/hackathon";
-
 const data = {
   name: "service request",
   value: 9,
@@ -50,9 +46,9 @@ const data = {
   ],
 };
 
-async function call(action, session) {
+async function call(apiUrl, action, session) {
   const result = (
-    await ky.post(`${API_URL}/actions/${action}`, {
+    await ky.post(`${apiUrl}/hackathon/actions/${action}`, {
       headers: {
         authorization: `Bearer ${session.data.idToken}`,
       },

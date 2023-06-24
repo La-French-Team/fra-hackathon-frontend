@@ -89,5 +89,6 @@ function defaultSpan(object) {
     // Extra properties for enhanced interactions
     loid: object?.params?.id,
     uri: loService.getUri(object),
+    type: object?.type,
   };
 }

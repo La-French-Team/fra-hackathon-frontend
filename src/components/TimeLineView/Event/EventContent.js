@@ -29,7 +29,15 @@ export default ({ event }) => {
       </Typography>
     </div>
     {event.locationName && <div>
-      <Typography>{event.locationName}</Typography>
+      <Typography
+        sx={{
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          width: "8rem",
+          maxWidth: "8rem",
+          whiteSpace: "nowrap"
+        }}
+        title={event.locationName}>{event.locationName}</Typography>
       <Typography color="text.secondary">
         {event.locality}, {event.countrycode}
       </Typography>

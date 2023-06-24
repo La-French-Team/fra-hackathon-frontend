@@ -10,24 +10,24 @@ const Flamechart = ({ style, results, onSpanClick }) => {
     ? generateFlamechartFromRoot(results?.[0]?.requests)
     : { name: "loading", value: 1 };
 
-  console.log("realdata", realdata);
-
   return (
     <Paper ref={ref} style={{ ...style }} variant="outlined">
-      <FlameGraph
-        data={realdata}
-        height={height}
-        width={width}
-        onChange={(node) => {
-          onSpanClick(node);
-        }}
-        onMouseOver={(event, itemData) => {
-          // console.log(event, itemData);
-        }}
-        onMouseOut={(event, itemData) => {
-          //console.log(event, itemData);
-        }}
-      />
+      {results?.length > 0 && (
+        <FlameGraph
+          data={realdata}
+          height={height}
+          width={width}
+          onChange={(node) => {
+            onSpanClick(node);
+          }}
+          onMouseOver={(event, itemData) => {
+            // console.log(event, itemData);
+          }}
+          onMouseOut={(event, itemData) => {
+            //console.log(event, itemData);
+          }}
+        />
+      )}
     </Paper>
   );
 };
