@@ -3,6 +3,7 @@ import {
   Drawer,
   IconButton,
   Link,
+  Paper,
   Typography
 } from "@mui/material"
 import LinkIcon from '@mui/icons-material/Link';
@@ -50,7 +51,7 @@ export default ({ uri, style }) => {
         shouldInitiallyExpand={() => true}
         style={defaultStyles}/>
     </Drawer>
-    <div style={{
+    <Paper style={{
       display: "flex",
       flexDirection: "column",
       padding: "0.5rem",
@@ -76,6 +77,6 @@ export default ({ uri, style }) => {
         </span>
       </div>
       <JsonTable json={data} />
-    </div>
+    </Paper>
   </>
 }

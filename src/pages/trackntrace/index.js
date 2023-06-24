@@ -6,7 +6,7 @@ import {
   TimeLineView,
 } from "../../components";
 
-export default function TrackNTrace({}) {
+export default function TrackNTrace({ }) {
   return (
     <Page pageTitle="Track & Trace">
       <AccessDeniedWrapper>
@@ -26,7 +26,11 @@ export default function TrackNTrace({}) {
             display: "flex"
           }} >
             <DetailsView style={{ height: "100%", width: "50%", flex: "1 1 auto" }} />
-            <TimeLineView style={{ height: "100%", width: "50%", flex: "1 1 auto", backgroundColor: "green" }} />
+            <TimeLineView style={{
+              height: "100%",
+              width: "50%",
+              flex: "1 1 auto",
+            }} />
           </div>
         </div>
       </AccessDeniedWrapper>
