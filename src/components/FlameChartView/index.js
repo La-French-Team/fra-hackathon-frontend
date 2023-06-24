@@ -1,4 +1,5 @@
 import { Paper } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { FlameGraph } from "react-flame-graph";
 import useResizeObserver from "use-resize-observer";
 
@@ -32,23 +33,72 @@ const data = {
   ],
 };
 
-const Flamechart = ({ style }) => {
+function transform(results, session) {
+  if (results == null) {
+    return {
+      name: "loading",
+      value: 1,
+    };
+  }
+
+  // 1. Service Request - ExecutionPlan
+  // 2. Service - ExecutionPlan
+  // 3. Activity - 1 Execution Plan - Sequence Number
+  // 4. Loop
+
+  /**
+   * @type Array
+   */
+  const requests = results[0].requests;
+  const serviceRequest = requests.find((req) => req.type === "ServiceRequest");
+  const service = requests.find((req) => req.type === "Service");
+  const activities = requests
+    .filter((req) => req.type === "Activity")
+    .sort((req) => req.body.sequenceNumber);
+
+  const flamegraph = {
+    name: formatName(serviceRequest, session),
+    value: activities.length,
+    children: [
+      {
+        name: formatName(service, session),
+        value: activities.length,
+        children: activities.map((activity) => {
+          return { name: formatName(activity, session), value: 1 };
+        }),
+      },
+    ],
+  };
+
+  return flamegraph;
+}
+
+function formatName(request, session) {
+  return `${request.type} - ${request.params.id.replace(
+    `_${session.data.user.email}`,
+    ""
+  )}`;
+}
+
+const Flamechart = ({ style, results }) => {
   const { ref, width = 1, height = 1 } = useResizeObserver();
+  const session = useSession();
+  const realdata = transform(results, session);
 
   return (
     <Paper ref={ref} style={{ ...style }} variant="outlined">
       <FlameGraph
-        data={data}
+        data={realdata}
         height={height}
         width={width}
         onChange={(node) => {
-          console.log(`"${node.name}" focused`);
+          //console.log(`"${node.name}" focused`);
         }}
         onMouseOver={(event, itemData) => {
-          console.log(event, itemData);
+          // console.log(event, itemData);
         }}
         onMouseOut={(event, itemData) => {
-          console.log(event, itemData);
+          //console.log(event, itemData);
         }}
       />
     </Paper>
