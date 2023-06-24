@@ -1,4 +1,7 @@
 import ActionBanner from "@/components/ActionBanner";
+import { ApiContext } from "@/components/ApiContext";
+import loService from "@/service/lo.service";
+import { useState } from "react";
 import {
   AccessDeniedWrapper,
   DetailsView,
@@ -6,79 +9,86 @@ import {
   Page,
   TimeLineView,
 } from "../../components";
-import { useState } from "react";
-import loService from "@/service/lo.service";
 
-export default function TrackNTrace({}) {
+export async function getServerSideProps() {
+  const apiUrl = process.env.API_URL;
+
+  return { props: { apiUrl } };
+}
+
+export default function TrackNTrace({ apiUrl }) {
   const [results, setResults] = useState(null);
   const [detailsUri, setDetailsUri] = useState(null);
 
-
   const onDataChange = (results) => {
-    setResults(results)
-    const serviceRequest = results[0].requests.find(el => el?.type === "ServiceRequest");
+    setResults(results);
+    const serviceRequest = results[0].requests.find(
+      (el) => el?.type === "ServiceRequest"
+    );
     if (serviceRequest) {
       if (serviceRequest?.params?.id) {
-        setDetailsUri(loService.getUriFromSDLObject(serviceRequest))
+        setDetailsUri(loService.getUriFromSDLObject(serviceRequest));
       } else {
-        setDetailsUri(loService.getUriFromNeOneObject(serviceRequest))
+        setDetailsUri(loService.getUriFromNeOneObject(serviceRequest));
       }
     }
-  }
+  };
 
   const onSpanClick = (node) => {
-    setDetailsUri(node.source.uri)
-  }
+    setDetailsUri(node.source.uri);
+  };
 
   return (
-    <Page>
-      <AccessDeniedWrapper>
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+    <ApiContext.Provider value={{ apiUrl }}>
+      <Page>
+        <AccessDeniedWrapper>
           <div
             style={{
-              minHeight: "7%",
-              maxHeight: "7%",
-              flex: "1 1 auto",
+              height: "100%",
               display: "flex",
+              flexDirection: "column",
             }}
           >
-            <ActionBanner onDataChange={onDataChange} />
-          </div>
-          <FlameChartView
-            style={{
-              flex: "1 1 auto",
-            }}
-            results={results}
-            onSpanClick={onSpanClick}
-          />
-          <div
-            style={{
-              minHeight: "50%",
-              maxHeight: "50%",
-              flex: "1 1 auto",
-              display: "flex",
-            }}
-          >
-            <DetailsView
-              style={{ height: "100%", width: "50%", flex: "1 1 auto" }}
-              uri={detailsUri}
-            />
-            <TimeLineView
+            <div
               style={{
-                height: "100%",
-                width: "50%",
+                minHeight: "7%",
+                maxHeight: "7%",
+                flex: "1 1 auto",
+                display: "flex",
+              }}
+            >
+              <ActionBanner onDataChange={onDataChange} />
+            </div>
+            <FlameChartView
+              style={{
                 flex: "1 1 auto",
               }}
+              results={results}
+              onSpanClick={onSpanClick}
             />
+            <div
+              style={{
+                minHeight: "50%",
+                maxHeight: "50%",
+                flex: "1 1 auto",
+                display: "flex",
+              }}
+            >
+              <DetailsView
+                style={{ height: "100%", width: "50%", flex: "1 1 auto" }}
+                uri={detailsUri}
+              />
+              <TimeLineView
+                style={{
+                  height: "100%",
+                  width: "50%",
+                  flex: "1 1 auto",
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </AccessDeniedWrapper>
-    </Page>
+        </AccessDeniedWrapper>
+      </Page>
+    </ApiContext.Provider>
   );
 }
