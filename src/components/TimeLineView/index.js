@@ -6,7 +6,7 @@ const TimeLineView = ({ style }) => {
   return <Paper style={{
     padding: "0.5rem",
     ...style
-  }}  >
+  }} variant="outlined"  >
     <Typography variant="h5">Timeline</Typography>
     <TimeLine events={eventExample} />
   </Paper>;

@@ -56,7 +56,8 @@ export default ({ uri, style }) => {
       flexDirection: "column",
       padding: "0.5rem",
       ...style
-    }}>
+    }}
+    variant="outlined">
       <div style={{
         display: "flex",
         justifyContent: "space-between"

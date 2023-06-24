@@ -17,7 +17,6 @@ export default function TrackNTrace({ }) {
         }}>
           <FlameChartView style={{
             flex: "1 1 auto",
-            backgroundColor: "red"
           }} />
           <div style={{
             minHeight: "50%",

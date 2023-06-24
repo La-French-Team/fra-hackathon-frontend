@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material";
 import { FlameGraph } from "react-flame-graph";
 import useResizeObserver from "use-resize-observer";
 
@@ -35,7 +36,7 @@ const Flamechart = ({ style }) => {
   const { ref, width = 1, height = 1 } = useResizeObserver();
 
   return (
-    <div ref={ref} style={{ ...style }}>
+    <Paper ref={ref} style={{ ...style }} variant="outlined">
       <FlameGraph
         data={data}
         height={height}
@@ -50,7 +51,7 @@ const Flamechart = ({ style }) => {
           console.log(event, itemData);
         }}
       />
-    </div>
+    </Paper>
   );
 };
 

@@ -13,7 +13,15 @@ const mapSDLEvent = event => ({
   hour: moment(event.actualDateTime).format('LT'),
   date: moment(event.actualDateTime).format('LL'),
 })
-const mapNeOneEvent = event => ({})
+const mapNeOneEvent = event => ({
+  code: event["https://onerecord.iata.org/ns/cargo#eventCode"],
+  description: event["https://onerecord.iata.org/ns/cargo#eventName"],
+  locationName: null,
+  locality: null,
+  countrycode: null,
+  hour: moment(event["https://onerecord.iata.org/ns/cargo#eventDate"]).format('LT'),
+  date: moment(event["https://onerecord.iata.org/ns/cargo#eventDate"]).format('LL'),
+})
 
 const formatEvent = event => {
   return !!event["@type"]
@@ -38,7 +46,7 @@ export default ({ event, first, last }) => {
     </TimelineSeparator>
     <TimelineContent sx={{
       py: '12px',
-       px: 2,
+      px: 2,
       flex: "3 1 auto"
     }}>
       <EventContent
