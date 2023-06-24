@@ -18,25 +18,34 @@ export async function getServerSideProps() {
 
 export default function TrackNTrace({ apiUrl }) {
   const [results, setResults] = useState(null);
+  const [activeStep, setActiveStep] = useState(null);
   const [detailsUri, setDetailsUri] = useState(null);
+  const [dataType, setDataType] = useState(null)
+  const [loId, setLoId] = useState(null)
 
-  const onDataChange = (results) => {
+  const onDataChange = (results, activeStep) => {
+    setActiveStep(activeStep)
     setResults(results)
     if (results?.length == 0) {
       return setDetailsUri(null)
     }
-    const serviceRequest = results[0]?.requests.find(el => el?.type === "ServiceRequest");
-    if (serviceRequest) {
-      if (serviceRequest?.params?.id) {
-        setDetailsUri(loService.getUriFromSDLObject(serviceRequest));
-      } else {
-        setDetailsUri(loService.getUriFromNeOneObject(serviceRequest));
-      }
+    let lo = null;
+    if (dataType == null) lo = results[0]?.requests.find(el => el?.type === "ServiceRequest");
+    if (dataType == "Service") lo = results[0]?.requests.find(el =>
+      el?.type === dataType && el?.params?.id == loId);
+    if (lo) {
+      setLoId(object?.params?.id)
+      setDetailsUri(loService.getUri(lo))
     }
   };
 
+  const onReset = () => {
+    setDataType("ServiceRequest");
+  }
+
   const onSpanClick = (node) => {
     setDetailsUri(node.source.uri);
+
   };
 
   return (
@@ -58,7 +67,7 @@ export default function TrackNTrace({ apiUrl }) {
                 display: "flex",
               }}
             >
-              <ActionBanner onDataChange={onDataChange} />
+              <ActionBanner onDataChange={onDataChange} onReset={onReset} />
             </div>
             <FlameChartView
               style={{
@@ -80,6 +89,8 @@ export default function TrackNTrace({ apiUrl }) {
                 uri={detailsUri}
               />
               <TimeLineView
+                step={activeStep}
+                uri={detailsUri}
                 style={{
                   height: "100%",
                   width: "50%",

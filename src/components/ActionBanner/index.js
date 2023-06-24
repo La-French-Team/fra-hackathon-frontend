@@ -1,6 +1,6 @@
 import call from "@/backend/backend";
 import { LoadingButton } from "@mui/lab";
-import { Paper, Step, StepLabel, Stepper } from "@mui/material";
+import { Paper, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { enqueueSnackbar } from "notistack";
 import { useContext, useState } from "react";
@@ -9,27 +9,27 @@ import { ApiContext } from "../ApiContext";
 const steps = [
   {
     label: "Start",
-    props: {}
+    description: ""
   },
   {
     label: "Step 1",
-    props: {}
+    description: ""
   },
   {
     label: "Step 2",
-    props: {}
+    description: ""
   },
   {
     label: "Step 3",
-    props: {}
+    description: ""
   },
   {
     label: "End",
-    props: {}
+    description: ""
   },
 ]
 
-const ActionBanner = ({ style, onDataChange }) => {
+const ActionBanner = ({ style, onDataChange, onReset }) => {
   const session = useSession();
   const [activeStep, setActiveStep] = useState(0)
   const [isLoading, setIsLoading] = useState(0)
@@ -40,7 +40,7 @@ const ActionBanner = ({ style, onDataChange }) => {
     setIsLoading(true)
     call(apiUrl, "init", session)
       .then((res) => {
-        onDataChange(res)
+        onDataChange(res, activeStep)
       })
       .catch(err => {
         enqueueSnackbar(err.message, { variant: "error" })
@@ -54,7 +54,7 @@ const ActionBanner = ({ style, onDataChange }) => {
   const onNextStep = async () => {
     setIsLoading(true)
     call(apiUrl, "nextStep", session).then((res) => {
-      onDataChange(res)
+      onDataChange(res, activeStep)
     })
       .catch(err => {
         enqueueSnackbar(err.message, { variant: "error" })
@@ -65,15 +65,16 @@ const ActionBanner = ({ style, onDataChange }) => {
       })
   }
 
-  const onReset = async () => {
+  const onResetClick = async () => {
     setIsLoading(true)
     call(apiUrl, "reset", session)
-      .then(() => {})
-      .catch(()=> {})
-      .finally(()=> {
-        onDataChange([])
+      .then(() => { })
+      .catch(() => { })
+      .finally(() => {
+        onDataChange([], activeStep)
         setActiveStep(0)
         setIsLoading(false)
+        onReset()
       })
   }
 
@@ -92,7 +93,11 @@ const ActionBanner = ({ style, onDataChange }) => {
         {steps.map((step, index) => {
           return (
             <Step key={step.label} {...step.props}>
-              <StepLabel >{step.label}</StepLabel>
+              <StepLabel
+               optional={
+                <Typography variant="caption">{step.description}</Typography>
+              }
+              {...step.labelProps} >{step.label}</StepLabel>
             </Step>
           );
         })}
@@ -132,7 +137,7 @@ const ActionBanner = ({ style, onDataChange }) => {
         loading={isLoading}
         variant="contained"
         color="error"
-        onClick={async () => onDataChange(await call(apiUrl, "current", session))}
+        onClick={async () => onDataChange(await call(apiUrl, "current", session), activeStep)}
         sx={{
           flex: "1 1 auto",
           mr: "1rem"
@@ -145,7 +150,7 @@ const ActionBanner = ({ style, onDataChange }) => {
         loading={isLoading}
         variant="outlined"
         color="warning"
-        onClick={onReset}
+        onClick={onResetClick}
         sx={{
           flex: "1 1 auto"
         }}

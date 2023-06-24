@@ -16,6 +16,7 @@ class LoService {
     }
     return this.getUriFromNeOneObject(object)
   }
+  
 
 }
 

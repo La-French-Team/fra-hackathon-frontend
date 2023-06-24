@@ -64,16 +64,19 @@ function transform(results, session) {
   const flamegraph = {
     name: formatName(serviceRequest, session),
     id: serviceRequest?.params?.id,
+    type: serviceRequest?.type,
     uri: loService.getUri(serviceRequest),
     value: activities.length,
     children: [
       {
         name: formatName(service, session),
         value: activities.length,
+        type: "Service",
         id: activities,
         uri: loService.getUri(service),
         children: activities.map((activity) => ({
           name: formatName(activity, session),
+          type: "Activity",
           value: 1,
           uri: loService.getUri(activity),
         })
