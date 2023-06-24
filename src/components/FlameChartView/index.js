@@ -62,15 +62,15 @@ function transform(results, session) {
 
   // 4. Loop on the Service Requests from the activities
   const flamegraph = {
-    name: formatName(serviceRequest, session),
+    name: formatServiceRequestName(serviceRequest),
     value: activities.length,
     children: [
       {
-        name: formatName(service, session),
+        name: formatServiceName(service),
         value: activities.length,
         children: activities.map((activity) => {
           return {
-            name: formatName(activity, session),
+            name: formatActivityName(activity, session),
             value: 1,
             children: [
               transformInner(
@@ -107,7 +107,7 @@ function transformInner(serviceRequest, requests, session) {
   if (!service) {
     console.warn("Could not find Service with id", serviceId);
     return {
-      name: formatName(serviceRequest, session),
+      name: formatServiceRequestName(serviceRequest, session),
       value: 1,
     };
   }
@@ -128,12 +128,12 @@ function transformInner(serviceRequest, requests, session) {
   }
 
   const flamegraph = {
-    name: formatName(serviceRequest, session),
+    name: formatServiceRequestName(serviceRequest),
     value: 1,
     children: service
       ? [
           {
-            name: formatName(service, session),
+            name: formatServiceName(service),
             value: 1,
             children: activities.map((activity) => {
               transformInner(
@@ -175,6 +175,18 @@ function formatName(request, session) {
     `_${session.data.user.email}`,
     ""
   )}`;
+}
+
+function formatServiceRequestName(request) {
+  return `${request.body.serviceName} by ${request.body.requestor.partyName} `;
+}
+
+function formatServiceName(request) {
+  return `${request.body.serviceName} by ${request.body.provider.partyName}`;
+}
+
+function formatActivityName(request) {
+  return `${request.body.activityName}`;
 }
 
 const Flamechart = ({ style, results }) => {
