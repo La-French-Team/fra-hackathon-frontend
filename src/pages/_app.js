@@ -1,6 +1,7 @@
 import { ColorModeContext } from "@/components/ColorModeContext";
 import createEmotionCache from "@/createEmotionCache";
 import "@/styles/globals.css";
+import '@/styles/label-rect.css';      
 import { CacheProvider, ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { SessionProvider } from "next-auth/react";

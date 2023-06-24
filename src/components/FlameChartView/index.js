@@ -1,7 +1,7 @@
 import { Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { FlameGraph } from "react-flame-graph";
 import useResizeObserver from "use-resize-observer";
+import { FlameGraph } from "./FlameChart";
 
 const data = {
   name: "root",
@@ -58,11 +58,13 @@ function transform(results, session) {
 
   const flamegraph = {
     name: formatName(serviceRequest, session),
+    id: serviceRequest?.params?.id,
     value: activities.length,
     children: [
       {
         name: formatName(service, session),
         value: activities.length,
+        id: activities,
         children: activities.map((activity) => {
           return { name: formatName(activity, session), value: 1 };
         }),
@@ -84,6 +86,7 @@ const Flamechart = ({ style, results }) => {
   const { ref, width = 1, height = 1 } = useResizeObserver();
   const session = useSession();
   const realdata = transform(results, session);
+  console.log("realdata",realdata)
 
   return (
     <Paper ref={ref} style={{ ...style }} variant="outlined">
@@ -92,7 +95,7 @@ const Flamechart = ({ style, results }) => {
         height={height}
         width={width}
         onChange={(node) => {
-          //console.log(`"${node.name}" focused`);
+          console.log(`"${JSON.stringify(node)}" focused`);
         }}
         onMouseOver={(event, itemData) => {
           // console.log(event, itemData);
