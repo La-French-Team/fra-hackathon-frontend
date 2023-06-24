@@ -9,6 +9,8 @@ import TimeLineView from "./TimeLineView";
 import DetailsView from "./DetailsView";
 import FlameChartView from "./FlameChartView";
 
+import MobileWrapper from "./MobileWrapper"
+
 export {
   AccessDenied,
   AccessDeniedWrapper,
@@ -20,4 +22,5 @@ export {
   TimeLineView,
   FlameChartView,
   DetailsView,
+  MobileWrapper
 };

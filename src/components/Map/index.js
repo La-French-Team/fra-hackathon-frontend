@@ -9,33 +9,33 @@ import { createRef, useContext, useEffect, useState } from "react";
 import { MapContext } from "../MapContext";
 import { extrusionLayer, flatLayer } from "./data-layer";
 import museumSource from "./museum-source";
+import useResizeObserver from "use-resize-observer";
 
 const valuetext = (value) => {
   return `${value} / 10`;
 };
 
-const Map = ({}) => {
-  const parentRef = createRef();
-  const [mapStyle, setMapStyle] = useState({ width: 800, height: 600 });
+const Map = ({ }) => {
+  const { ref, width = 1, height = 1 } = useResizeObserver();
   const { mapboxAccessToken } = useContext(MapContext);
 
-  useEffect(() => {
-    setMapStyle({
-      width: parentRef.innerWidth,
-      height: parentRef.innerHeight || window.innerHeight * 0.6,
-    });
-  }, [parentRef.innerHeight, parentRef.innerWidth]);
-
   return (
-    <div>
-      <div ref={parentRef}>
+    <>
+      <div ref={ref} 
+          style={{
+            width: "100%",
+            height: "100%"
+          }}>
         <MapGL
           initialViewState={{
             longitude: 8.553247617024397,
             latitude: 50.03429893352305,
-            zoom: 14,
+            zoom: 12,
           }}
-          style={mapStyle}
+          style={{
+            width,
+            height
+          }}
           mapStyle="mapbox://styles/mapbox/streets-v12"
           mapboxAccessToken={mapboxAccessToken}
           antialias={true}
@@ -56,7 +56,7 @@ const Map = ({}) => {
         min={1}
         max={10}
       />
-    </div>
+    </>
   );
 };
 

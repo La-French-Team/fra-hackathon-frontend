@@ -1,4 +1,4 @@
-import { AccessDeniedWrapper, Map, MapContext, Page } from "../../components";
+import { AccessDeniedWrapper, MobileWrapper, Page } from "../../components";
 
 export async function getServerSideProps() {
   const mapboxAccessToken = process.env.MAPBOX_TOKEN;
@@ -6,13 +6,12 @@ export async function getServerSideProps() {
   return { props: { mapboxAccessToken } };
 }
 
-export default function About({ mapboxAccessToken }) {
+
+export default ({ mapboxAccessToken }) => {
   return (
     <Page pageTitle="Protected">
       <AccessDeniedWrapper>
-        <MapContext.Provider value={{ mapboxAccessToken }}>
-          <Map />
-        </MapContext.Provider>
+        <MobileWrapper mapboxAccessToken={mapboxAccessToken} />
       </AccessDeniedWrapper>
     </Page>
   );
