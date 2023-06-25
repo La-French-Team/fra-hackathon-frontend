@@ -6,6 +6,7 @@ import call from "@/backend/backend";
 import { ApiContext } from "@/components/ApiContext";
 import { LoadingButton } from "@mui/lab";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps() {
   const apiUrl = process.env.API_URL;
@@ -19,6 +20,8 @@ export default ({ apiUrl }) => {
   const [loading, setLoading] = useState(false)
   // const { apiUrl } = useContext(ApiContext);
   const [missionStarted, setMissionStarted] = useState(false);
+
+  const router = useRouter();
 
   const onDropOff = () => {
     setLoading(true)
