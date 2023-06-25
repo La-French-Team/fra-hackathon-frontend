@@ -11,7 +11,7 @@ export async function getServerSideProps() {
 
 export default ({ mapboxAccessToken, apiUrl }) => {
   return (
-    <Page pageTitle="ONE GHA">
+    <Page pageTitle="ONE GROUND">
         <AccessDeniedWrapper>
           <MobileWrapper  >
             <MapContext.Provider value={{ mapboxAccessToken, apiUrl }}>

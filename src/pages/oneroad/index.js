@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { AccessDeniedWrapper, MobileWrapper, Page } from "../../components";
 import { Alert, Button, Card, Paper, Typography } from "@mui/material";
+import { useState } from "react";
 
 
 
 export default ({ }) => {
+  const [missionStarted, setMissionStarted] = useState(false);
+
   return (
-    <Page pageTitle="ONE GROUND">
+    <Page pageTitle="ONE ROAD">
       <AccessDeniedWrapper>
         <MobileWrapper >
           <div style={{
@@ -17,22 +20,22 @@ export default ({ }) => {
             justifyContent: "center",
           }}>
             <Card
-            elevation={4}
+              elevation={4}
               sx={{ padding: "0.5rem" }}
               variant="elevation">
-              <Typography variant="h5" component="div" sx={{fontWeight: "bold"}}>
+              <Typography variant="h5" component="div" sx={{ fontWeight: "bold" }}>
                 New mission
               </Typography>
               <Typography
                 sx={{ marginBottom: "0.5rem" }}
                 color="text.secondary">
-                Goods movement
+                Last mile
               </Typography>
               <Typography variant="subtitle2">
-                From: Aircraft
+                From: warehouse
               </Typography>
               <Typography variant="subtitle2">
-                To:  Warehouse 529 Frachtumschlaghalle Fraport
+                To:  TDB
               </Typography>
 
               <Typography
@@ -46,16 +49,26 @@ export default ({ }) => {
                   display: "flex",
                   justifyContent: "center"
                 }}>
-                <Button
-                  variant="contained"
-                  component={Link}
-                  href="/mobilemap/0"
-                  style={{
+                {missionStarted
+                  ? <Button
+                    variant="contained"
+                    onClick={() => setMissionStarted(true)}
+                    style={{
 
-                  }}
-                >
-                  Start misison
-                </Button>
+                    }}
+                  >
+                    Pick up goods
+                  </Button>
+                  : <Button
+                    variant="contained"
+                    component={Link}
+                    href="/"
+                    style={{
+
+                    }}
+                  >
+                    Deliver goods
+                  </Button>}
               </div>
 
             </Card>

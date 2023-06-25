@@ -1,16 +1,19 @@
 import call from "@/backend/backend"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useSession } from "next-auth/react";
 import { MapContext } from "../MapContext";
 import { useRouter } from "next/router";
+import { LoadingButton } from "@mui/lab";
 
 export default ({ open, onClose }) => {
   const session = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
   const { apiUrl } = useContext(MapContext);
 
   const onDropOff = () => {
+    setLoading(true)
     call(apiUrl, "nextStep", session).then(() => {
       onClose()
       router.push("/")
@@ -32,13 +35,15 @@ export default ({ open, onClose }) => {
       </Typography>
     </DialogContent>
     <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
-      <Button
+      <LoadingButton
         variant="contained"
         autoFocus
+        loading={loading}
+        disabled={loading}
         onClick={onDropOff}
       >
         CONFIRM
-      </Button>
+      </LoadingButton>
     </DialogActions>
   </Dialog >
 }
