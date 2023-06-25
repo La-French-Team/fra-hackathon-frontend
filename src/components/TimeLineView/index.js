@@ -23,7 +23,13 @@ const TimeLineView = ({ uri, step, style }) => {
     ...style
   }} variant="outlined"  >
     <Typography variant="h5">Timeline</Typography>
-    <TimeLine events={events} />
+    {event?.length > 0
+      ? <TimeLine events={events} />
+      : <Typography
+        component="p"
+        variant="caption"
+        style={{ marginTop: "0.5rem" }}>No events to deisplay</Typography>
+    }
   </Paper>;
 };
 

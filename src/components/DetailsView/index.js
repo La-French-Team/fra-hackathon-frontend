@@ -58,7 +58,8 @@ export default ({ uri = null, style }) => {
       variant="outlined">
       <div style={{
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginBottom: "0.5rem"
       }}>
         <Typography variant="h5">Details</Typography>
         <span>

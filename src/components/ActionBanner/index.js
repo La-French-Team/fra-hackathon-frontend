@@ -139,7 +139,9 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
       <div style={{
         width: "50%",
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: "0 1rem"
       }}>
         {activeStep == 0
           ? <LoadingButton

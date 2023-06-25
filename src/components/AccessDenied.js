@@ -17,7 +17,7 @@ export default function AccessDenied() {
       sx={{ pt:"5rem",display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <Typography variant="h3" sx={{ m: 2 }}>
-        You must log in to access this page
+        You must sign in to access this page
       </Typography>
       <p>
         <Button
@@ -26,7 +26,7 @@ export default function AccessDenied() {
           onClick={() => signIn("zitadel")}
           sx={{ m: 1 }}
         >
-          Log in
+          Sign in
         </Button>
       </p>
     </Box>
