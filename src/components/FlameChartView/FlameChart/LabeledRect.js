@@ -34,6 +34,7 @@ const LabeledRect = ({
       height={height}
       fill={backgroundColor}
       onClick={onClick}
+      rx="10" 
       className="flame-rect"
       style={{
         opacity: isDimmed ? 0.5 : 1,

@@ -44,7 +44,6 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
   const { apiUrl } = useContext(ApiContext);
 
   useEffect(() => {
-    console.log("activeStep", activeStep)
     setIsLoading(true)
     call(apiUrl, "current", session)
       .then(res => {
@@ -77,13 +76,11 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
   const onNextStep = async () => {
     setIsLoading(true)
 
-    if (steps[activeStep + 1]?.isGhaActions) {
-      router.push("/newmission")
-      return setActiveStep(activeStep + 1);
+    if (steps[activeStep]?.isGhaActions) {
+      return router.push("/newmission")
     }
-    if (steps[activeStep + 1]?.isTruckerActions) {
-      router.push("/oneroad")
-      return setActiveStep(activeStep + 1);
+    if (steps[activeStep]?.isTruckerActions) {
+      return router.push("/oneroad")
     }
     call(apiUrl, "nextStep", session).then((res) => {
       onDataChange(res, activeStep)

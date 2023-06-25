@@ -65,7 +65,7 @@ function generateFlamechart(
     const fgActivity = defaultSpan(activity);
     fgActivity.name += `${activity.body.activityName}`;
     fgActivity.backgroundColor = executionStatusColor(
-      service.body.executionStatus
+      activity.body.executionStatus
     );
 
     // The inner service request might not exist
@@ -123,6 +123,7 @@ function defaultSpan(object) {
 
 function executionStatusColor(executionStatus) {
   const palette = appTheme().palette;
+  console.log("executionStatus", executionStatus)
   switch (executionStatus) {
     case "NOT_PLANNED":
       return palette.grey[500];
@@ -131,8 +132,8 @@ function executionStatusColor(executionStatus) {
     case "STARTED":
       return alpha(palette.primary.main, 0.4);
     case "FINISHED":
-      return alpha(palette.success.main, 0.4);
+      return alpha(palette.success.light, 0.4);
     default:
-      return alpha(palette.error.main, 0.4);
+      return palette.grey[100];
   }
 }
