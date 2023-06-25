@@ -12,7 +12,6 @@ export function retrieveAssociations(requests, serviceRequest) {
     ? retrieveActivitiesFromService(requests, service)
     : []; // If the service is not found, default to empty activities
 
-  console.log("Activities:", activities);
 
   // 4. Find inner service requests from activities
   // The link is 1 - 1, so index i on activities has the associated service request
@@ -67,6 +66,5 @@ function retrieveServiceRequestsFromActivities(requests, activities) {
 
 function findElementById(type, id, list) {
   const found = list.find((req) => req.type === type && req.params?.id === id);
-  console.log("Looking for", id, "and found", found);
   return found;
 }

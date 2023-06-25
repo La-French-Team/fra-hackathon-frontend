@@ -100,7 +100,6 @@ const Map = ({ }) => {
             onMove={onMove}
           />
           {steps.map((step, index) => {
-            console.log(step, index == activeStep)
             return <Marker
               key={index + "-" + (index == activeStep ? "red" : "grey")}
               color={index == activeStep ? "red" : "grey"}

@@ -1,16 +1,20 @@
 import call from "@/backend/backend"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
-import Link from "next/link"
 import { useContext } from "react";
 import { useSession } from "next-auth/react";
 import { MapContext } from "../MapContext";
+import { useRouter } from "next/router";
 
 export default ({ open, onClose }) => {
   const session = useSession();
+  const router = useRouter();
   const { apiUrl } = useContext(MapContext);
 
   const onDropOff = () => {
-    call(apiUrl, "nextStep", session).then(onClose)
+    call(apiUrl, "nextStep", session).then(() => {
+      onClose()
+      router.push("/")
+    })
   }
 
   return <Dialog open={open}>
@@ -31,8 +35,6 @@ export default ({ open, onClose }) => {
       <Button
         variant="contained"
         autoFocus
-        component={Link}
-        href="/"
         onClick={onDropOff}
       >
         CONFIRM

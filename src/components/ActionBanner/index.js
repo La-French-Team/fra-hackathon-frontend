@@ -43,6 +43,7 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
   const { apiUrl } = useContext(ApiContext);
 
   useEffect(() => {
+    console.log("activeStep", activeStep)
     setIsLoading(true)
     call(apiUrl, "current", session)
       .then(res => {
@@ -77,7 +78,7 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
 
     if (steps[activeStep + 1]?.isGhaActions) {
       router.push("/newmission")
-      return setActiveStep(activeStep + 1)
+      return setActiveStep(activeStep + 1);
     }
     call(apiUrl, "nextStep", session).then((res) => {
       onDataChange(res, activeStep)
@@ -103,6 +104,8 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
         onReset()
       })
   }
+
+  console.log(activeStep)
 
 
   return (
