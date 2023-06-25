@@ -1,13 +1,20 @@
+import call from "@/backend/backend"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
-import Link from "next/link"
-import ky from "ky"
+import { useContext } from "react";
+import { useSession } from "next-auth/react";
+import { MapContext } from "../MapContext";
+import { useRouter } from "next/router";
 
-export default ({open, onClose}) => {
+export default ({ open, onClose }) => {
+  const session = useSession();
+  const router = useRouter();
+  const { apiUrl } = useContext(MapContext);
 
   const onDropOff = () => {
-    // post drop off event
-    // ky.post()
-    onClose()
+    call(apiUrl, "nextStep", session).then(() => {
+      onClose()
+      router.push("/")
+    })
   }
 
   return <Dialog open={open}>
@@ -24,12 +31,10 @@ export default ({open, onClose}) => {
           sx={{ fontWeight: "bold" }}> 12345</Typography>
       </Typography>
     </DialogContent>
-    <DialogActions sx={{display: "flex", justifyContent: "center"}}>
+    <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
       <Button
         variant="contained"
         autoFocus
-        component={Link}
-        href="/"
         onClick={onDropOff}
       >
         CONFIRM

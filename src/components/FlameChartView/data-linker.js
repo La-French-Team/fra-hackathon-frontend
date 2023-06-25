@@ -12,8 +12,6 @@ export function retrieveAssociations(requests, serviceRequest) {
     ? retrieveActivitiesFromService(requests, service)
     : []; // If the service is not found, default to empty activities
 
-  console.log("Activities:", activities);
-
   // 4. Find inner service requests from activities
   // The link is 1 - 1, so index i on activities has the associated service request
   // on the innerServicesRequests also at i

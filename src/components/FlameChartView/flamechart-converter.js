@@ -47,7 +47,6 @@ function generateFlamechart(
   fgService.backgroundColor = executionStatusColor(
     service.body.executionStatus
   );
-  console.log(fgService.backgroundColor);
   root.children = [fgService];
 
   // Has many activities
@@ -97,7 +96,6 @@ function generateFlamechart(
  */
 // Default span from any entry
 function defaultSpan(object) {
-  console.log(`${object?.type} - ${object?.params?.id}`, object);
   return {
     name: `${object?.type} - `,
     value: 1,

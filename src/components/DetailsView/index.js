@@ -37,7 +37,6 @@ export default ({ uri = null, style }) => {
   const closeDrawer = () => {
     setDrawerOpened(false);
   }
-  console.log(data)
 
   return <>
     <Drawer

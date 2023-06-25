@@ -17,7 +17,6 @@ const TimeLineView = ({ uri, step, style }) => {
       })
   }, [uri, step])
 
-  console.log("events", events)
 
   return <Paper style={{
     padding: "0.5rem",
