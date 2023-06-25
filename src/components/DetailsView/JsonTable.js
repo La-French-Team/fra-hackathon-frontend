@@ -9,15 +9,15 @@ import {
 } from "@mui/material"
 
 const JsonCell = ({ value }) => {
-    if (Array.isArray(value)) {
-      return <ul>
+  if (Array.isArray(value)) {
+    return <ul>
       {value.map(el => <li><pre>{JSON.stringify(el)}</pre></li>)}
     </ul>
-    } else if (typeof value === 'object' ) {
-      return <pre>{JSON.stringify(value)}</pre>
-    } else {
-      return value
-    }
+  } else if (typeof value === 'object') {
+    return <pre>{JSON.stringify(value)}</pre>
+  } else {
+    return value
+  }
 }
 
 export default ({ json }) => {
@@ -39,13 +39,13 @@ export default ({ json }) => {
         {json ?
           Object.entries(json).map(([key, value]) => (
             <TableRow
-              key={key}
+              key={key + "-" + JSON.stringify(value)}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell>{key}</TableCell>
-  <TableCell>
-              <JsonCell value={value} />
-  </TableCell>
+              <TableCell>
+                <JsonCell value={value} />
+              </TableCell>
             </TableRow>
           ))
           :
