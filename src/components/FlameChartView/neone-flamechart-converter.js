@@ -42,9 +42,14 @@ export function generateNEOneFlamechart(
   }
 
   const fgWaybill = defaultSpan(waybill);
+  fgWaybill.name =
+    "Waybill " +
+    waybill.body["https://onerecord.iata.org/ns/cargo#waybillnumber"];
   root.children = [fgWaybill];
 
   const fgBooking = defaultSpan(booking);
+  console.log(booking);
+  fgBooking.name = "Booking";
   fgWaybill.children = [fgBooking];
 
   // Has many activities
@@ -52,6 +57,10 @@ export function generateNEOneFlamechart(
   const fgActivities = activities.map((activity, index) => {
     console.log(activity);
     const fgActivity = defaultSpan(activity);
+    fgActivity.name =
+      activity.body["https://onerecord.iata.org/ns/cargo#modeQualifier"] +
+      " - " +
+      activity.body["https://onerecord.iata.org/ns/cargo#transportIdentifier"];
     fgActivity.backgroundColor = executionStatusColor(
       booking.body.executionStatus
     );
