@@ -39,34 +39,35 @@ export function retrieveRootServiceRequest(requests) {
 }
 
 function retrieveServiceFromRequest(requests, serviceRequest) {
-  const serviceId = stringAfter(serviceRequest.body.service, "/");
-  const service = findElementById("Service", serviceId, requests);
+  const service = findElementById(
+    "Service",
+    serviceRequest.body.service,
+    requests
+  );
   if (!service) {
-    console.warn("Could not find Service with id", serviceId);
+    console.warn("Could not find Service with id", serviceRequest.body.service);
   }
   return service;
 }
 
 function retrieveActivitiesFromService(requests, service) {
   return service.body.activities
-    .map((activityId) =>
-      findElementById("Activity", stringAfter(activityId, "/"), requests)
-    )
+    .map((activityId) => findElementById("Activity", activityId, requests))
     .sort((req) => req.body.sequenceNumber);
 }
 
 function retrieveServiceRequestsFromActivities(requests, activities) {
   return activities.map((activity) =>
-    findElementById(
-      "ServiceRequest",
-      stringAfter(activity.params.id, "/"),
-      requests
-    )
+    findElementById("ServiceRequest", activity.params.id, requests)
   );
 }
 
 function findElementById(type, id, list) {
-  const found = list.find((req) => req.type === type && req.params?.id === id);
+  const found = list.find(
+    (req) =>
+      req.type === type &&
+      stringAfter(req.params?.id, "/") === stringAfter(id, "/")
+  );
   console.log("Looking for", id, "and found", found);
   return found;
 }
