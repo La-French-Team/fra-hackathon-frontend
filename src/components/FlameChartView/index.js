@@ -10,6 +10,8 @@ const Flamechart = ({ style, results, onSpanClick }) => {
     ? generateFlamechartFromRoot(results?.[0]?.requests)
     : { name: "loading", value: 1 };
 
+  console.log("realdata", realdata);
+
   return (
     <Paper ref={ref} style={{ ...style }} variant="outlined">
       {results?.length > 0 && (

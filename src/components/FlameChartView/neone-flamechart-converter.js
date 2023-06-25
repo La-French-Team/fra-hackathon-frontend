@@ -4,7 +4,6 @@ import {
   retrieveRootServiceRequest,
 } from "./data-linker";
 import appTheme from "@/theme";
-import { generateNEOneFlamechart } from "./neone-flamechart-converter";
 
 export function generateFlamechartFromRoot(requests) {
   // 1. Find the first ServiceRequest issued by the customer (seller)
@@ -26,26 +25,15 @@ export function generateFlamechartFromRoot(requests) {
  * @param {Array} activities
  * @param {Array} innerServicesRequests
  */
-function generateFlamechart(
+export function generateNEOneFlamechart(
   serviceRequest,
   service,
   activities,
-  innerServicesRequests,
   requests
 ) {
   if (!serviceRequest) {
     return undefined;
   }
-
-  if (serviceRequest.body.service.includes("neone")) {
-    return generateNEOneFlamechart(
-      serviceRequest,
-      service,
-      activities,
-      requests
-    );
-  }
-
   const root = defaultSpan(serviceRequest);
   root.name += `${serviceRequest.body.serviceName} by ${serviceRequest.body.requestor.partyName}`;
 
@@ -54,7 +42,6 @@ function generateFlamechart(
   if (!service) {
     return root;
   }
-  fgService.name += `${service.body.serviceName} by ${service.body.provider.partyName} `;
   fgService.backgroundColor = executionStatusColor(
     service.body.executionStatus
   );
@@ -64,13 +51,12 @@ function generateFlamechart(
   let totalSubchildrenSize = activities.length;
   const fgActivities = activities.map((activity, index) => {
     const fgActivity = defaultSpan(activity);
-    fgActivity.name += `${activity.body.activityName}`;
     fgActivity.backgroundColor = executionStatusColor(
       service.body.executionStatus
     );
 
-    // The inner service request might not exist
-    if (innerServicesRequests[index]) {
+    // Actions here
+    /*if (innerServicesRequests[index]) {
       const innerAssociations = retrieveAssociations(
         requests,
         innerServicesRequests[index]
@@ -84,12 +70,7 @@ function generateFlamechart(
         requests
       );
       fgActivity.children = [fgServiceRequest];
-      totalSubchildrenSize += Math.max(
-        fgServiceRequest.children[0].value - 1,
-        0
-      );
-      fgActivity.value = fgServiceRequest.children[0].value;
-    }
+    }*/
 
     return fgActivity;
   });

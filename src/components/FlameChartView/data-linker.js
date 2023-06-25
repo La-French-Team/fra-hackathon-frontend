@@ -1,9 +1,13 @@
 // Converts SDL and NE:ONE data to Flamechart
 
+import { retrieveNEOneAssociations } from "./neone-data-linker";
 import { stringAfter } from "./string-utils";
 
 // Retrieve all associations through IDs...
 export function retrieveAssociations(requests, serviceRequest) {
+  if (serviceRequest.body.service.includes("neone")) {
+    return retrieveNEOneAssociations(requests, serviceRequest);
+  }
   // 2. Find the service that related to the service request
   const service = retrieveServiceFromRequest(requests, serviceRequest);
 
@@ -60,7 +64,7 @@ function retrieveServiceRequestsFromActivities(requests, activities) {
   );
 }
 
-function findElementById(type, id, list) {
+export function findElementById(type, id, list) {
   const found = list.find(
     (req) =>
       req.type === type &&
