@@ -74,9 +74,9 @@ const Map = ({ }) => {
       >
         <MapGL
           initialViewState={{
-            longitude: 8.556629344403035,
-            latitude: 50.027697101405664,
-            zoom: 14.5,
+            longitude:    8.556369503079793,
+            latitude: 50.02833166757779,
+            zoom: 15,
           }}
           style={{
             width,
