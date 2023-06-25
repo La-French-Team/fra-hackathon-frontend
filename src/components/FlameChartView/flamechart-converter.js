@@ -84,11 +84,9 @@ function generateFlamechart(
         requests
       );
       fgActivity.children = [fgServiceRequest];
-      totalSubchildrenSize += Math.max(
-        fgServiceRequest.children[0].value - 1,
-        0
-      );
-      fgActivity.value = fgServiceRequest.children[0].value;
+      const innerServiceSize = fgServiceRequest.children[0]?.value || 0;
+      totalSubchildrenSize += Math.max(innerServiceSize - 1, 0);
+      fgActivity.value = Math.max(innerServiceSize, 1);
     }
 
     return fgActivity;
