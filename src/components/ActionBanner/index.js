@@ -31,7 +31,8 @@ const steps = [
   },
   {
     label: "Last mile delivery",
-    description: ""
+    description: "",
+    isTruckerActions: true
   },
 ]
 
@@ -78,6 +79,10 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
 
     if (steps[activeStep + 1]?.isGhaActions) {
       router.push("/newmission")
+      return setActiveStep(activeStep + 1);
+    }
+    if (steps[activeStep + 1]?.isTruckerActions) {
+      router.push("/oneroad")
       return setActiveStep(activeStep + 1);
     }
     call(apiUrl, "nextStep", session).then((res) => {
