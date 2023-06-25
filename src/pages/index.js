@@ -63,8 +63,8 @@ export default function TrackNTrace({ apiUrl }) {
           >
             <div
               style={{
-                minHeight: "7%",
-                maxHeight: "12%",
+                minHeight: "64px",
+                maxHeight: "5%",
                 flex: "1 1 auto",
                 display: "flex",
               }}
@@ -73,16 +73,18 @@ export default function TrackNTrace({ apiUrl }) {
             </div>
             <FlameChartView
               style={{
-                flex: "1 1 auto",
+                flex: "4 1 auto",
+                padding: "0.2rem",
+                maxHeight: "45%"
               }}
               results={results}
               onSpanClick={onSpanClick}
             />
             <div
               style={{
-                minHeight: "50%",
+                minHeight: "40%",
                 maxHeight: "50%",
-                flex: "1 1 auto",
+                flex: "6 1 auto",
                 display: "flex",
               }}
             >
