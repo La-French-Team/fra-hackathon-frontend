@@ -127,12 +127,12 @@ function executionStatusColor(executionStatus) {
     case "NOT_PLANNED":
       return palette.grey[500];
     case "SCHEDULED":
-      return alpha(palette.info.light, 0.5);
+      return alpha(palette.info.light, 0.4);
     case "STARTED":
-      return alpha(palette.primary.main, 0.5);
+      return alpha(palette.primary.main, 0.4);
     case "FINISHED":
-      return alpha(palette.success.main, 0.5);
+      return alpha(palette.success.main, 0.4);
     default:
-      return alpha(palette.error.main, 0.5);
+      return alpha(palette.error.main, 0.4);
   }
 }

@@ -1,7 +1,6 @@
 import { Paper } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 import { FlameGraph } from "./FlameChart";
-import loService from "@/service/lo.service";
 import { generateFlamechartFromRoot } from "./flamechart-converter";
 
 const Flamechart = ({ style, results, onSpanClick }) => {
@@ -17,7 +16,7 @@ const Flamechart = ({ style, results, onSpanClick }) => {
       {results?.length > 0 && (
         <FlameGraph
           data={realdata}
-          height={height}
+          height={height * 0.95}
           width={width}
           onChange={(node) => {
             onSpanClick(node);

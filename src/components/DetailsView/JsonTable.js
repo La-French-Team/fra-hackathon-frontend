@@ -8,14 +8,13 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material"
+import { JsonView } from "react-json-view-lite"
 
 const JsonCell = ({ value }) => {
   if (Array.isArray(value)) {
-    return <ul>
-      {value.map(el => <li><pre>{JSON.stringify(el)}</pre></li>)}
-    </ul>
+    return <JsonView data={value} collapsed={()=>true} />
   } else if (typeof value === 'object') {
-    return <pre>{JSON.stringify(value)}</pre>
+    return <JsonView data={value} collapsed={()=>true} />
   } else {
     return value
   }

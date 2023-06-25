@@ -49,6 +49,7 @@ const data = {
 async function call(apiUrl, action, session) {
   const result = (
     await ky.post(`${apiUrl}/hackathon/actions/${action}`, {
+      timeout: 60000,
       headers: {
         authorization: `Bearer ${session.data.idToken}`,
       },

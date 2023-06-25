@@ -22,7 +22,7 @@ const TimeLineView = ({ uri, step, style }) => {
     padding: "0.5rem",
     ...style
   }} variant="outlined"  >
-    <Typography variant="h5">Timeline</Typography>
+    <Typography variant="h5">Events Timeline</Typography>
     {events?.length > 0
       ? <TimeLine events={events} />
       : <Typography

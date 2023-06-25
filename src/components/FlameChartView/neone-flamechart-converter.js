@@ -1,6 +1,7 @@
 import loService from "@/service/lo.service";
 import appTheme from "@/theme";
 import { retrieveNEOneAssociations } from "./neone-data-linker";
+import { alpha } from "@mui/material";
 
 export function generateNEOneFlamechartRoot(requests, serviceRequest) {
   const data = retrieveNEOneAssociations(requests, serviceRequest);
@@ -113,12 +114,12 @@ function executionStatusColor(executionStatus) {
     case "NOT_PLANNED":
       return palette.grey[500];
     case "SCHEDULED":
-      return palette.info.light;
+      return alpha(palette.info.light, 0.4);
     case "STARTED":
-      return palette.primary.main;
+      return alpha(palette.primary.main, 0.4);
     case "FINISHED":
-      return palette.success.main;
+      return alpha(palette.success.main, 0.4);
     default:
-      return palette.error.main;
+      return alpha(palette.error.main, 0.4);
   }
 }
