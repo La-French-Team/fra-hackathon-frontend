@@ -10,7 +10,7 @@ export default [
   {
     start: 23,
     end: 29,
-    nextStepLabel: "Go to Warhouse",
+    nextStepLabel: "Go to Warehouse",
     interval: 100,
     isDropOff: true
   }

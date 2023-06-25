@@ -126,7 +126,14 @@ const ActionBanner = ({ style, onDataChange, onReset }) => {
       <Stepper activeStep={activeStep}>
         {steps.map((step, index) => {
           return (
-            <Step key={step.label} {...step.props}>
+            <Step
+              key={step.label}
+              sx={{
+                '& svg.Mui-completed': {
+                  color: 'success.dark', // circle color (COMPLETED)
+                },
+              }}
+              {...step.props} >
               <StepLabel
                 optional={
                   <Typography variant="caption">{step.description}</Typography>

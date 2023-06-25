@@ -4,6 +4,7 @@ import {
   retrieveRootServiceRequest,
 } from "./data-linker";
 import appTheme from "@/theme";
+import { alpha } from "@mui/material";
 
 export function generateFlamechartFromRoot(requests) {
   // 1. Find the first ServiceRequest issued by the customer (seller)
@@ -111,12 +112,12 @@ function executionStatusColor(executionStatus) {
     case "NOT_PLANNED":
       return palette.grey[500];
     case "SCHEDULED":
-      return palette.info.light;
+      return alpha(palette.info.light, 0.4);
     case "STARTED":
-      return palette.primary.main;
+      return alpha(palette.primary.main, 0.4);
     case "FINISHED":
-      return palette.success.main;
+      return alpha(palette.success.main, 0.4);
     default:
-      return palette.error.main;
+      return alpha(palette.error.main, 0.4);
   }
 }

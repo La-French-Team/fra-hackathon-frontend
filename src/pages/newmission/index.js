@@ -54,7 +54,7 @@ export default ({ }) => {
 
                   }}
                 >
-                  Start misison
+                  Start mission
                 </Button>
               </div>
 
