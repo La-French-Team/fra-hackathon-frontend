@@ -116,8 +116,8 @@ function executionStatusColor(executionStatus) {
     case "STARTED":
       return alpha(palette.primary.main, 0.4);
     case "FINISHED":
-      return alpha(palette.success.main, 0.4);
+      return alpha(palette.success.light, 0.4);
     default:
-      return alpha(palette.error.main, 0.4);
+      return palette.grey[100];
   }
 }
