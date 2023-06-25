@@ -50,7 +50,15 @@ const LabeledRect = ({
         }}
         y={height < textHeight ? -textHeight : 0}
       >
-        <div className="flame-div" style={{ color }}>
+        <div
+          className="flame-div"
+          style={{
+            color,
+            height: "100%",
+            alignItems: "center",
+            display: "flex",
+            padding: "0 0.5rem",
+          }}>
           {label}
         </div>
       </foreignObject>
