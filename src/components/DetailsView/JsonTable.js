@@ -1,3 +1,4 @@
+import styled from "@emotion/styled"
 import {
   Paper,
   Table,
@@ -20,6 +21,16 @@ const JsonCell = ({ value }) => {
   }
 }
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
 export default ({ json }) => {
   return <TableContainer component={Paper} sx={{
     maxWidth: "100%",
@@ -38,7 +49,7 @@ export default ({ json }) => {
       <TableBody>
         {json ?
           Object.entries(json).map(([key, value]) => (
-            <TableRow
+            <StyledTableRow
               key={key + "-" + JSON.stringify(value)}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -46,7 +57,7 @@ export default ({ json }) => {
               <TableCell>
                 <JsonCell value={value} />
               </TableCell>
-            </TableRow>
+            </StyledTableRow>
           ))
           :
           <TableRow>
