@@ -3,6 +3,7 @@ import {
   retrieveAssociations,
   retrieveRootServiceRequest,
 } from "./data-linker";
+import appTheme from "@/theme";
 
 export function generateFlamechartFromRoot(requests) {
   // 1. Find the first ServiceRequest issued by the customer (seller)
@@ -43,6 +44,10 @@ function generateFlamechart(
     return root;
   }
   fgService.name += `${service.body.serviceName} by ${service.body.provider.partyName} `;
+  fgService.backgroundColor = executionStatusColor(
+    service.body.executionStatus
+  );
+  console.log(fgService.backgroundColor);
   root.children = [fgService];
 
   // Has many activities
@@ -50,6 +55,9 @@ function generateFlamechart(
   const fgActivities = activities.map((activity, index) => {
     const fgActivity = defaultSpan(activity);
     fgActivity.name += `${activity.body.activityName}`;
+    fgActivity.backgroundColor = executionStatusColor(
+      service.body.executionStatus
+    );
 
     // The inner service request might not exist
     if (innerServicesRequests[index]) {
@@ -79,6 +87,14 @@ function generateFlamechart(
   return root;
 }
 
+/**
+ * Service, Activite:
+ * NOT_PLANNED -> gris
+ * SCHEDULED -> jaune
+ * STARTED -> bleu
+ * FINISHED -> ?
+ *
+ */
 // Default span from any entry
 function defaultSpan(object) {
   console.log(`${object?.type} - ${object?.params?.id}`, object);
@@ -90,5 +106,22 @@ function defaultSpan(object) {
     loid: object?.params?.id,
     uri: loService.getUri(object),
     type: object?.type,
+    backgroundColor: appTheme().palette.grey[300],
   };
+}
+
+function executionStatusColor(executionStatus) {
+  const palette = appTheme().palette;
+  switch (executionStatus) {
+    case "NOT_PLANNED":
+      return palette.grey[500];
+    case "SCHEDULED":
+      return palette.info.light;
+    case "STARTED":
+      return palette.primary.main;
+    case "FINISHED":
+      return palette.success.main;
+    default:
+      return palette.error.main;
+  }
 }
