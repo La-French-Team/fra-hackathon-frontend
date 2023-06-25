@@ -4,7 +4,10 @@ import {
   retrieveRootServiceRequest,
 } from "./data-linker";
 import appTheme from "@/theme";
-import { generateNEOneFlamechart } from "./neone-flamechart-converter";
+import {
+  generateNEOneFlamechart,
+  generateNEOneFlamechartRoot,
+} from "./neone-flamechart-converter";
 import { alpha } from "@mui/material";
 
 export function generateFlamechartFromRoot(requests) {
@@ -39,12 +42,7 @@ function generateFlamechart(
   }
 
   if (serviceRequest.body.service.includes("neone")) {
-    return generateNEOneFlamechart(
-      serviceRequest,
-      service,
-      activities,
-      requests
-    );
+    return generateNEOneFlamechartRoot(requests, serviceRequest);
   }
 
   const root = defaultSpan(serviceRequest);

@@ -1,19 +1,15 @@
 import loService from "@/service/lo.service";
-import {
-  retrieveAssociations,
-  retrieveRootServiceRequest,
-} from "./data-linker";
 import appTheme from "@/theme";
+import { retrieveNEOneAssociations } from "./neone-data-linker";
 
-export function generateFlamechartFromRoot(requests) {
-  // 1. Find the first ServiceRequest issued by the customer (seller)
-  const serviceRequest = retrieveRootServiceRequest(requests);
-  const data = retrieveAssociations(requests, serviceRequest);
-  return generateFlamechart(
+export function generateNEOneFlamechartRoot(requests, serviceRequest) {
+  const data = retrieveNEOneAssociations(requests, serviceRequest);
+  return generateNEOneFlamechart(
     data.serviceRequest,
-    data.service,
+    data.waybill,
+    data.booking,
     data.activities,
-    data.innerServicesRequests,
+    data.actions,
     requests
   );
 }
@@ -27,32 +23,36 @@ export function generateFlamechartFromRoot(requests) {
  */
 export function generateNEOneFlamechart(
   serviceRequest,
-  service,
+  waybill,
+  booking,
   activities,
+  actions,
   requests
 ) {
   if (!serviceRequest) {
     return undefined;
   }
+
   const root = defaultSpan(serviceRequest);
   root.name += `${serviceRequest.body.serviceName} by ${serviceRequest.body.requestor.partyName}`;
 
-  // Has only one service
-  const fgService = defaultSpan(service);
-  if (!service) {
+  if (!waybill) {
     return root;
   }
-  fgService.backgroundColor = executionStatusColor(
-    service.body.executionStatus
-  );
-  root.children = [fgService];
+
+  const fgWaybill = defaultSpan(waybill);
+  root.children = [fgWaybill];
+
+  const fgBooking = defaultSpan(booking);
+  fgWaybill.children = [fgBooking];
 
   // Has many activities
   let totalSubchildrenSize = activities.length;
   const fgActivities = activities.map((activity, index) => {
+    console.log(activity);
     const fgActivity = defaultSpan(activity);
     fgActivity.backgroundColor = executionStatusColor(
-      service.body.executionStatus
+      booking.body.executionStatus
     );
 
     // Actions here
@@ -74,11 +74,13 @@ export function generateNEOneFlamechart(
 
     return fgActivity;
   });
-  fgService.children = fgActivities;
+  fgBooking.children = fgActivities;
 
   const size = totalSubchildrenSize === 0 ? 1 : totalSubchildrenSize;
+
   root.value = size;
-  fgService.value = size;
+  fgWaybill.value = size;
+  fgBooking.value = size;
 
   return root;
 }

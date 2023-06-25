@@ -2,18 +2,35 @@ import { findElementById } from "./data-linker";
 
 // NE: One service requests are linked between SDL and NE:One through ONE Record service link
 export function retrieveNEOneAssociations(requests, serviceRequest) {
-  // 2. Find the service that related to the service request
-  const service = retrieveBooking(requests, serviceRequest);
+  const booking = retrieveBooking(requests, serviceRequest);
+  const waybill = booking ? retrieveWaybill(requests, booking) : null;
 
-  // 3. Find the linked activities
-  const activities = service ? retrieveActivities(requests, service) : []; // If the service is not found, default to empty activities
-
+  const activities = booking ? retrieveActivities(requests, booking) : []; // If the service is not found, default to empty activities
+  const actions = [];
   return {
     serviceRequest,
-    service,
+    waybill,
+    booking,
     activities,
-    innerServicesRequests: [],
+    actions,
   };
+}
+
+function retrieveWaybill(requests, booking) {
+  const waybill = findElementById(
+    "https://onerecord.iata.org/ns/cargo#Waybill",
+    booking.body["https://onerecord.iata.org/ns/cargo#issuedForWaybill"]["@id"],
+    requests
+  );
+  if (!booking) {
+    console.warn(
+      "Could not find Waybill with id",
+      booking.body["https://onerecord.iata.org/ns/cargo#issuedForWaybill"][
+        "@id"
+      ]
+    );
+  }
+  return waybill;
 }
 
 function retrieveBooking(requests, serviceRequest) {
@@ -22,7 +39,6 @@ function retrieveBooking(requests, serviceRequest) {
     serviceRequest.body.service,
     requests
   );
-  console.log(requests);
   if (!booking) {
     console.warn("Could not find Booking with id", serviceRequest.body.service);
   }
